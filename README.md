@@ -47,8 +47,8 @@ Coming next: CIM ingestion, extraction, screening, Airtable sync.
 Requires Python 3.12+ and [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/salbano210/jack_rAIn.git
-cd jack_rAIn
+git clone https://github.com/salbano210/jackryan.git
+cd jackryan
 uv sync                              # creates .venv and installs deps
 cp .env.example .env                 # then edit .env and add your OpenRouter key
 uv run jackryan config validate      # sanity-check the config files
