@@ -8,7 +8,7 @@ from pathlib import Path
 import yaml
 from pydantic import ValidationError
 
-from jackryan.config.schemas import (
+from dealflow.config.schemas import (
     Dimension,
     KpiDefinition,
     Models,
@@ -22,7 +22,7 @@ class ConfigError(RuntimeError):
 
 
 def _repo_root() -> Path:
-    # src/jackryan/config/loader.py  ->  repo root is three parents up
+    # src/dealflow/config/loader.py  ->  repo root is three parents up
     return Path(__file__).resolve().parents[3]
 
 

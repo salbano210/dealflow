@@ -8,6 +8,6 @@ If any config file is invalid, `load_all()` raises before any pipeline
 work is done -- we never run with half-broken config.
 """
 
-from jackryan.config.loader import AppConfig, load_all
+from dealflow.config.loader import AppConfig, load_all
 
 __all__ = ["AppConfig", "load_all"]

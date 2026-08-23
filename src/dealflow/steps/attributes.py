@@ -19,7 +19,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from jackryan.db.models import ExtractedAttribute, RawSource
+from dealflow.db.models import ExtractedAttribute, RawSource
 
 _STATE_RANK = {"known": 2, "inferred": 1, "unknown": 0}
 

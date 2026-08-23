@@ -7,14 +7,14 @@ from pathlib import Path
 
 from sqlalchemy import inspect
 
-from jackryan.db import init_db
-from jackryan.db.session import get_engine
+from dealflow.db import init_db
+from dealflow.db.session import get_engine
 
 
 def test_init_creates_all_tables(tmp_path: Path, monkeypatch) -> None:
-    monkeypatch.setenv("JACKRYAN_DB_PATH", str(tmp_path / "test.sqlite"))
+    monkeypatch.setenv("DEALFLOW_DB_PATH", str(tmp_path / "test.sqlite"))
     # Reset module-level engine cache so the new env var takes effect.
-    import jackryan.db.session as s
+    import dealflow.db.session as s
     s._engine = None
     s._SessionFactory = None
 

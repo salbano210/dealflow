@@ -9,10 +9,10 @@ from __future__ import annotations
 import httpx
 import trafilatura
 
-from jackryan.sources.base import SourceDocument
+from dealflow.sources.base import SourceDocument
 
 _DEFAULT_TIMEOUT = 20.0
-_USER_AGENT = "jackryan/0.1 (+https://github.com/salbano210/jackryan)"
+_USER_AGENT = "dealflow/0.1 (+https://github.com/salbano210/dealflow)"
 
 
 class WebsiteFetchError(RuntimeError):

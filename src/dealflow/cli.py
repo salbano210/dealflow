@@ -1,18 +1,18 @@
-"""jackryan CLI entrypoint.
+"""dealflow CLI entrypoint.
 
 Everything a human action touches lives here. Actions on the DB happen
 via subcommands; review of results happens via Airtable (future) or by
 inspecting the SQLite file directly.
 
 Available today:
-  jackryan config validate     -- load & cross-validate all YAML config
-  jackryan config show-thesis  -- print the parsed thesis
-  jackryan db init             -- create SQLite schema
-  jackryan llm ping            -- smoke-test the OpenRouter connection
-  jackryan add                 -- add a company (lightweight entry point)
-  jackryan ingest-cim          -- add/enrich a company from a CIM PDF
-  jackryan enrich              -- fetch website + extract KPIs
-  jackryan show                -- print a company's merged KPI picture
+  dealflow config validate     -- load & cross-validate all YAML config
+  dealflow config show-thesis  -- print the parsed thesis
+  dealflow db init             -- create SQLite schema
+  dealflow llm ping            -- smoke-test the OpenRouter connection
+  dealflow add                 -- add a company (lightweight entry point)
+  dealflow ingest-cim          -- add/enrich a company from a CIM PDF
+  dealflow enrich              -- fetch website + extract KPIs
+  dealflow show                -- print a company's merged KPI picture
 """
 
 from __future__ import annotations
@@ -26,15 +26,15 @@ from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 
-from jackryan import __version__
-from jackryan.config import load_all
-from jackryan.config.loader import ConfigError
+from dealflow import __version__
+from dealflow.config import load_all
+from dealflow.config.loader import ConfigError
 
 # Load .env at import time so any subcommand sees the vars.
 load_dotenv()
 
 app = typer.Typer(
-    help="jackryan -- AI-augmented sourcing & screening workflow.",
+    help="dealflow -- AI-augmented sourcing & screening workflow.",
     no_args_is_help=True,
 )
 config_app = typer.Typer(help="Inspect and validate configuration.")
@@ -49,8 +49,8 @@ console = Console()
 
 @app.command()
 def version() -> None:
-    """Print the installed jackryan version."""
-    rprint(f"jackryan [bold]{__version__}[/bold]")
+    """Print the installed dealflow version."""
+    rprint(f"dealflow [bold]{__version__}[/bold]")
 
 
 # ------------------------------------------------------------------- config --
@@ -119,7 +119,7 @@ def config_show_weights() -> None:
 @db_app.command("init")
 def db_init() -> None:
     """Create the SQLite schema. Idempotent."""
-    from jackryan.db import init_db  # local import: avoid pulling SQLAlchemy on --help
+    from dealflow.db import init_db  # local import: avoid pulling SQLAlchemy on --help
 
     path: Path = init_db()
     console.print(f"[bold green]OK[/bold green] -- database ready at {path}")
@@ -132,8 +132,8 @@ def llm_ping(
     step: str = typer.Option("extract_from_website", help="Step key from models.yaml"),
 ) -> None:
     """Send a trivial prompt through the configured model to verify OpenRouter access."""
-    from jackryan.db import init_db
-    from jackryan.llm import get_client
+    from dealflow.db import init_db
+    from dealflow.llm import get_client
 
     init_db()  # ensure llm_calls table exists so logging works
     cfg = load_all()
@@ -161,9 +161,9 @@ def add_company_cmd(
     source: str | None = typer.Option(None, "--source", help="How it entered the pipeline"),
 ) -> None:
     """Add a company (lightweight entry point). Does not run enrichment."""
-    from jackryan.db import init_db
-    from jackryan.db.session import get_session
-    from jackryan.steps.company import create_company
+    from dealflow.db import init_db
+    from dealflow.db.session import get_session
+    from dealflow.steps.company import create_company
 
     init_db()
     with get_session() as s:
@@ -187,12 +187,12 @@ def ingest_cim_cmd(
     You are not gated on the company already existing -- pass --company-name
     and it will be created if needed.
     """
-    from jackryan.db import init_db
-    from jackryan.db.session import get_session
-    from jackryan.sources.cim import CimParseError
-    from jackryan.steps.company import CompanyNotFound, resolve_company
-    from jackryan.steps.enrich import enrich_from_cim
-    from jackryan.steps.extract import extract_from_source
+    from dealflow.db import init_db
+    from dealflow.db.session import get_session
+    from dealflow.sources.cim import CimParseError
+    from dealflow.steps.company import CompanyNotFound, resolve_company
+    from dealflow.steps.enrich import enrich_from_cim
+    from dealflow.steps.extract import extract_from_source
 
     init_db()
     cfg = load_all()
@@ -217,7 +217,7 @@ def ingest_cim_cmd(
         f"source id={src_id}, {written} KPI rows extracted."
     )
     if extract and not no_external_llm:
-        console.print(f"Run [bold]jackryan show {cid}[/bold] to view the KPI picture.")
+        console.print(f"Run [bold]dealflow show {cid}[/bold] to view the KPI picture.")
 
 
 @app.command("enrich")
@@ -226,12 +226,12 @@ def enrich_cmd(
     extract: bool = typer.Option(True, help="Run extraction after fetching sources"),
 ) -> None:
     """Fetch the company website and (optionally) extract KPIs from all sources."""
-    from jackryan.db import init_db
-    from jackryan.db.session import get_session
-    from jackryan.sources.website import WebsiteFetchError
-    from jackryan.steps.company import CompanyNotFound, get_company
-    from jackryan.steps.enrich import enrich_from_website
-    from jackryan.steps.extract import extract_company
+    from dealflow.db import init_db
+    from dealflow.db.session import get_session
+    from dealflow.sources.website import WebsiteFetchError
+    from dealflow.steps.company import CompanyNotFound, get_company
+    from dealflow.steps.enrich import enrich_from_website
+    from dealflow.steps.extract import extract_company
 
     init_db()
     cfg = load_all()
@@ -256,16 +256,16 @@ def enrich_cmd(
     if extract:
         total = sum(results.values())
         console.print(f"[bold green]OK[/bold green] -- extracted {total} KPI rows across sources.")
-        console.print(f"Run [bold]jackryan show {company_id}[/bold] to view.")
+        console.print(f"Run [bold]dealflow show {company_id}[/bold] to view.")
 
 
 @app.command("show")
 def show_cmd(company_id: int = typer.Argument(..., help="Company id")) -> None:
     """Print a company's merged KPI picture with provenance."""
-    from jackryan.db import init_db
-    from jackryan.db.session import get_session
-    from jackryan.steps.attributes import current_attributes
-    from jackryan.steps.company import CompanyNotFound, get_company
+    from dealflow.db import init_db
+    from dealflow.db.session import get_session
+    from dealflow.steps.attributes import current_attributes
+    from dealflow.steps.company import CompanyNotFound, get_company
 
     init_db()
     try:

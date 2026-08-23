@@ -27,7 +27,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field, create_model
 
-from jackryan.config.schemas import KpiDefinition
+from dealflow.config.schemas import KpiDefinition
 
 FieldState = Literal["known", "inferred", "unknown"]
 

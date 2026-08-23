@@ -7,7 +7,7 @@ version: 1
 
 # Hard filters: pure Python, no LLM. Instant reject if violated.
 hard_filters:
-  min_revenue_usd: 20_000_000
+  min_revenue_usd: 5_000_000
   geography_allowlist: [US, CA]
   business_model_blocklist: [pure_services, hardware_only]
 
@@ -15,7 +15,7 @@ hard_filters:
 soft_criteria:
   business_model_preferred: [recurring_saas, tech_enabled_services]
   founder_ownership: preferred
-  min_growth_rate: 0.25
+  min_growth_rate: 0.20
   preferred_markets:
     - vertical_saas
     - supply_chain_software
@@ -35,4 +35,4 @@ notes: |
 
 # Cost guardrail: if a single company's pipeline run exceeds this in LLM
 # spend (summed across all steps), the pipeline halts and logs a warning.
-max_cost_per_company_usd: 0.10
+max_cost_per_company_usd: 0.20

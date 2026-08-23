@@ -5,7 +5,7 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from jackryan.db.models import Company
+from dealflow.db.models import Company
 
 
 class CompanyNotFound(RuntimeError):

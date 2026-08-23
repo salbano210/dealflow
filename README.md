@@ -1,8 +1,8 @@
-# jack_rAIn
+# dealflow
 
 **An AI-augmented sourcing & screening workflow for growth-equity investment analysts.**
 
-`jack_rAIn` automates the repetitive information-processing layer between company
+`dealflow` automates the repetitive information-processing layer between company
 sourcing and human investment judgment. Companies enter the pipeline (manually,
 via CIM upload, or via a data source), get enriched from available evidence,
 evaluated against a **configurable** investment thesis, assigned a transparent
@@ -33,15 +33,15 @@ LLM at the leaves.
 
 What works today:
 
-- Config loading & validation (`jackryan config validate`)
-- SQLite schema init (`jackryan db init`)
+- Config loading & validation (`dealflow config validate`)
+- SQLite schema init (`dealflow db init`)
 - OpenRouter client with structured outputs + per-call cost logging
-- **Company entry** (`jackryan add`)
-- **CIM ingestion** (`jackryan ingest-cim path/to/deck.pdf --company-name "Acme"`)
+- **Company entry** (`dealflow add`)
+- **CIM ingestion** (`dealflow ingest-cim path/to/deck.pdf --company-name "Acme"`)
   — creates the company if it doesn't exist, so you're never gated on it
-- **Web + document extraction** (`jackryan enrich <id>`) — pulls the website,
+- **Web + document extraction** (`dealflow enrich <id>`) — pulls the website,
   extracts KPIs from every stored source into typed, provenance-tagged rows
-- **Merged KPI view** (`jackryan show <id>`) — trust-tier merge across sources,
+- **Merged KPI view** (`dealflow show <id>`) — trust-tier merge across sources,
   with conflict flags and evidence
 
 Coming next: screening engine (per-dimension scoring + weighted aggregate),
@@ -54,13 +54,13 @@ research questions, outreach drafts, Airtable sync.
 Requires Python 3.12+ and [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/salbano210/jackryan.git
-cd jackryan
+git clone https://github.com/salbano210/dealflow.git
+cd dealflow
 uv sync                              # creates .venv and installs deps
 cp .env.example .env                 # then edit .env and add your OpenRouter key
-uv run jackryan config validate      # sanity-check the config files
-uv run jackryan db init              # create the SQLite database
-uv run jackryan --help
+uv run dealflow config validate      # sanity-check the config files
+uv run dealflow db init              # create the SQLite database
+uv run dealflow --help
 ```
 
 You need your own [OpenRouter API key](https://openrouter.ai/keys). The key is

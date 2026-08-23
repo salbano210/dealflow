@@ -9,23 +9,23 @@ from pathlib import Path
 
 import pytest
 
-from jackryan.steps.attributes import current_attributes
+from dealflow.steps.attributes import current_attributes
 
 
 @pytest.fixture()
 def session(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("JACKRYAN_DB_PATH", str(tmp_path / "merge.sqlite"))
-    import jackryan.db.session as s
+    monkeypatch.setenv("DEALFLOW_DB_PATH", str(tmp_path / "merge.sqlite"))
+    import dealflow.db.session as s
     s._engine = None
     s._SessionFactory = None
-    from jackryan.db import init_db
+    from dealflow.db import init_db
     init_db()
     with s.get_session() as sess:
         yield sess
 
 
 def _add_source(sess, company_id, kind, tier):
-    from jackryan.db.models import RawSource
+    from dealflow.db.models import RawSource
     src = RawSource(company_id=company_id, kind=kind, trust_tier=tier, text_blob="x")
     sess.add(src)
     sess.flush()
@@ -33,7 +33,7 @@ def _add_source(sess, company_id, kind, tier):
 
 
 def _add_attr(sess, company_id, key, value, state, source_id):
-    from jackryan.db.models import ExtractedAttribute
+    from dealflow.db.models import ExtractedAttribute
     sess.add(ExtractedAttribute(
         company_id=company_id, kpi_key=key,
         value_json={"value": value, "state": state, "confidence": 0.9, "evidence": "e"},
@@ -43,7 +43,7 @@ def _add_attr(sess, company_id, key, value, state, source_id):
 
 
 def test_higher_trust_tier_wins(session):
-    from jackryan.db.models import Company
+    from dealflow.db.models import Company
     c = Company(name="Acme")
     session.add(c)
     session.flush()
@@ -61,7 +61,7 @@ def test_higher_trust_tier_wins(session):
 
 
 def test_same_tier_disagreement_flags_conflict(session):
-    from jackryan.db.models import Company
+    from dealflow.db.models import Company
     c = Company(name="Beta")
     session.add(c)
     session.flush()

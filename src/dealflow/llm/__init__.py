@@ -6,6 +6,6 @@ All LLM calls go through this module. Every call is logged to the
 Provider: OpenRouter (OpenAI-compatible API). One key, many models.
 """
 
-from jackryan.llm.client import LLMClient, LLMResponse, get_client
+from dealflow.llm.client import LLMClient, LLMResponse, get_client
 
 __all__ = ["LLMClient", "LLMResponse", "get_client"]

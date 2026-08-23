@@ -16,7 +16,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from jackryan.config.schemas import KpiDefinition
+from dealflow.config.schemas import KpiDefinition
 
 
 @dataclass

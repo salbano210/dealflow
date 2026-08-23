@@ -7,8 +7,8 @@ from pathlib import Path
 import pytest
 import yaml
 
-from jackryan.config import load_all
-from jackryan.config.loader import ConfigError
+from dealflow.config import load_all
+from dealflow.config.loader import ConfigError
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]

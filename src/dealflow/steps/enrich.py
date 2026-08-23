@@ -8,10 +8,10 @@ from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
-from jackryan.db.models import Company, RawSource
-from jackryan.sources.base import SourceDocument
-from jackryan.sources.cim import parse_cim
-from jackryan.sources.website import fetch_website
+from dealflow.db.models import Company, RawSource
+from dealflow.sources.base import SourceDocument
+from dealflow.sources.cim import parse_cim
+from dealflow.sources.website import fetch_website
 
 
 def store_source(session: Session, company_id: int, doc: SourceDocument) -> RawSource:

@@ -11,9 +11,9 @@ from typing import Any, Type, TypeVar
 from openai import OpenAI
 from pydantic import BaseModel, ValidationError
 
-from jackryan.config import AppConfig
-from jackryan.db.models import LlmCall
-from jackryan.db.session import get_session
+from dealflow.config import AppConfig
+from dealflow.db.models import LlmCall
+from dealflow.db.session import get_session
 
 T = TypeVar("T", bound=BaseModel)
 

@@ -8,9 +8,9 @@ from pathlib import Path
 
 import pytest
 
-from jackryan.config.schemas import KpiDefinition
-from jackryan.steps.normalize import normalize_value
-from jackryan.steps.schema import KpiValue, build_extraction_model
+from dealflow.config.schemas import KpiDefinition
+from dealflow.steps.normalize import normalize_value
+from dealflow.steps.schema import KpiValue, build_extraction_model
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

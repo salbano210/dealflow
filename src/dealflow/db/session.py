@@ -11,11 +11,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from jackryan.db.models import Base
+from dealflow.db.models import Base
 
 
 def _db_path() -> Path:
-    raw = os.environ.get("JACKRYAN_DB_PATH", "data/jackryan.sqlite")
+    raw = os.environ.get("DEALFLOW_DB_PATH", "data/dealflow.sqlite")
     p = Path(raw)
     if not p.is_absolute():
         # Resolve relative to repo root (three parents up from this file).

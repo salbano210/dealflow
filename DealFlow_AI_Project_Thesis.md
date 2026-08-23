@@ -6,7 +6,7 @@
 
 The core thesis is:
 
-> **AI should not replace the investment analyst. It should reduce the amount of repetitive information gathering, screening, enrichment, and preparation that happens before an analyst applies judgment.**
+> **AI should not replace the investment analyst. It should reduce the amount of repetitive information gathering, screening, and enrichment that happens before an analyst applies judgment.**
 
 The project will model the earliest stages of the investment funnel:
 
@@ -49,7 +49,7 @@ It is the amount of **human time required to turn unstructured information into 
 
 ## The proposed solution
 
-DealFlow AI creates an automated first-pass research and screening layer.
+jack_rAIn creates an automated first-pass research and screening layer.
 
 Instead of asking an analyst to manually investigate every company from scratch, the system produces a standardized research package that answers:
 

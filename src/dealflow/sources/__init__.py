@@ -12,6 +12,6 @@ Trust tiers (higher wins in merge conflicts):
     news       = 1
 """
 
-from jackryan.sources.base import SourceDocument, TRUST_TIERS
+from dealflow.sources.base import SourceDocument, TRUST_TIERS
 
 __all__ = ["SourceDocument", "TRUST_TIERS"]

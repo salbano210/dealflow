@@ -16,7 +16,7 @@ from pathlib import Path
 from pypdf import PdfReader
 from pypdf.errors import PdfReadError
 
-from jackryan.sources.base import SourceDocument
+from dealflow.sources.base import SourceDocument
 
 # Below this many extracted characters we assume the PDF is image-only.
 _MIN_TEXT_CHARS = 200

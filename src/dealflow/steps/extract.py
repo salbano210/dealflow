@@ -12,11 +12,11 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from jackryan.config import AppConfig
-from jackryan.db.models import ExtractedAttribute, RawSource
-from jackryan.llm import get_client
-from jackryan.steps.normalize import normalize_value
-from jackryan.steps.schema import build_extraction_model, describe_kpis_for_prompt
+from dealflow.config import AppConfig
+from dealflow.db.models import ExtractedAttribute, RawSource
+from dealflow.llm import get_client
+from dealflow.steps.normalize import normalize_value
+from dealflow.steps.schema import build_extraction_model, describe_kpis_for_prompt
 
 _SYSTEM_PROMPT = """You are a meticulous financial-data extraction assistant for an \
 investment analyst. You read company source material and extract specific KPIs.
