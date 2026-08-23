@@ -2,7 +2,7 @@
 # Set your AIRTABLE_API_KEY and AIRTABLE_BASE_ID in .env
 
 base_id: ""          # e.g. "appXXXXXXXXXXXXXX" (from Airtable API docs)
-table_name: "Companies"
+table_name: "Table 1"
 
 # Which fields to push to Airtable. Order matters (first is the primary field).
 # Format: airtable_field_name: source
