@@ -17,6 +17,8 @@ dependencies = [
     "httpx>=0.27",
     "openai>=1.51",           # used as the OpenRouter client (OpenAI-compatible)
     "tenacity>=9.0",
+    "pypdf>=5.1",             # CIM PDF text extraction
+    "trafilatura>=1.12",      # website main-content extraction
 ]
 
 [project.optional-dependencies]

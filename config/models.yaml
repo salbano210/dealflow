@@ -9,11 +9,11 @@
 steps:
   # ------- Extraction (deterministic, cheap models preferred) -------
   extract_from_website:
-    model: openai/gpt-4o-mini
+    model: google/gemini-2.5-flash-lite
     temp: 0.0
 
   extract_from_cim:
-    model: openai/gpt-4o-mini
+    model: google/gemini-2.5-flash-lite
     temp: 0.0
     # CIMs can be long; give this step more room.
     max_tokens: 4096
@@ -21,7 +21,7 @@ steps:
   # ------- Screening (per-dimension) -------
   # Default scorer used for LLM-judged dimensions unless overridden below.
   score_dimension_default:
-    model: openai/gpt-4o-mini
+    model: google/gemini-2.5-flash-lite
     temp: 0.0
 
   # Override for the nuanced dimensions that benefit from a stronger model.
