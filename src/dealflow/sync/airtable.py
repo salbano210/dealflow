@@ -56,6 +56,17 @@ def _build_record_fields(
     status_mapping = cfg.get("status_mapping", {})
     record: dict[str, Any] = {}
 
+    # Fetch latest screening if any field references it
+    needs_screening = any(
+        src.startswith("screening.") for src in fields_cfg.values()
+    )
+    screening = None
+    if needs_screening:
+        from dealflow.db.models import Screening
+        screening = (
+            company.screenings[-1] if company.screenings else None
+        )
+
     for airtable_field, source in fields_cfg.items():
         if source.startswith("company."):
             attr = source.split(".", 1)[1]
@@ -80,6 +91,19 @@ def _build_record_fields(
                     record[airtable_field] = round(known / len(required), 2)
                 else:
                     record[airtable_field] = 1.0
+        elif source.startswith("screening."):
+            if screening is None:
+                continue
+            field = source.split(".", 1)[1]
+            if field == "total_score":
+                record[airtable_field] = round(screening.total_score, 1)
+            elif field == "passed_hard_filters":
+                record[airtable_field] = "PASS" if screening.passed_hard_filters else "FAIL"
+            elif field == "failures_text":
+                if screening.hard_filter_failures:
+                    record[airtable_field] = "; ".join(screening.hard_filter_failures)
+                else:
+                    record[airtable_field] = "None"
 
     # Strip None values so Airtable doesn't overwrite with blanks
     return {k: v for k, v in record.items() if v is not None}

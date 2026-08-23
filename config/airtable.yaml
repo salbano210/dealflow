@@ -11,6 +11,7 @@ table_name: "Table 1"
 #     "kpi.<kpi_key>"      — extracted KPI value
 #     "kpi_state.<kpi_key>" — KPI state (known/inferred/unknown)
 #     "computed.<name>"    — computed field (e.g. data_completeness)
+#     "screening.<field>"  — latest screening result (score, passed, failures)
 fields:
   Name: company.name
   URL: company.website
@@ -25,6 +26,9 @@ fields:
   Target customer: kpi.target_customer
   employees: kpi.employee_count
   data completeness: computed.data_completeness
+  Screening Score: screening.total_score
+  Screening Passed: screening.passed_hard_filters
+  Screening Failures: screening.failures_text
 
 # Map our status values to Airtable's single-select options.
 # Airtable "Status" field only allows: Todo, In progress, Done
