@@ -31,14 +31,21 @@ LLM at the leaves.
 
 ## Status
 
-Early scaffold. What works today:
+What works today:
 
 - Config loading & validation (`jackryan config validate`)
 - SQLite schema init (`jackryan db init`)
-- OpenRouter client wired up with structured-output support
-- LLM call logging table
+- OpenRouter client with structured outputs + per-call cost logging
+- **Company entry** (`jackryan add`)
+- **CIM ingestion** (`jackryan ingest-cim path/to/deck.pdf --company-name "Acme"`)
+  — creates the company if it doesn't exist, so you're never gated on it
+- **Web + document extraction** (`jackryan enrich <id>`) — pulls the website,
+  extracts KPIs from every stored source into typed, provenance-tagged rows
+- **Merged KPI view** (`jackryan show <id>`) — trust-tier merge across sources,
+  with conflict flags and evidence
 
-Coming next: CIM ingestion, extraction, screening, Airtable sync.
+Coming next: screening engine (per-dimension scoring + weighted aggregate),
+research questions, outreach drafts, Airtable sync.
 
 ---
 
