@@ -1,103 +1,160 @@
 # dealflow
 
-**An AI-augmented sourcing & screening workflow for growth-equity investment analysts.**
+**AI-augmented sourcing & screening for growth-equity analysts.**
 
 `dealflow` automates the repetitive information-processing layer between company
-sourcing and human investment judgment. Companies enter the pipeline (manually,
-via CIM upload, or via a data source), get enriched from available evidence,
-evaluated against a **configurable** investment thesis, assigned a transparent
-evidence-backed screening score, and routed to an analyst for human review.
-
-This is deliberately **not** another chatbot. It is workflow automation with an
-LLM at the leaves.
+sourcing and human investment judgment. Upload a CIM, get structured KPIs with
+evidence and provenance — no manual data entry.
 
 ---
 
-## Design principles
+## What it does
 
-1. **Configuration over code.** The thesis, the KPIs extracted, the scoring
-   weights, and the model used at each pipeline step are all YAML files. Change
-   any of them without touching Python.
-2. **Deterministic glue, probabilistic leaves.** The pipeline is plain Python.
-   LLMs are only called for specific, narrow tasks (extract this field, judge
-   this dimension, draft this email).
-3. **Every LLM call is logged** with prompt, model, tokens, cost, and latency.
-4. **Human-in-the-loop for consequential actions.** The system drafts outreach;
-   it never sends it.
-5. **Provenance for every claim.** Every extracted field points to the source
-   text it came from.
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Upload    │────→│   Extract   │────→│   Merge &   │────→│   Sync to   │
+│    CIM      │     │    KPIs     │     │   Score     │     │  Airtable   │
+│   (PDF)     │     │  (LLM)      │     │  (Python)   │     │  (Review)   │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+       │                   │                   │                   │
+       ▼                   ▼                   ▼                   ▼
+  58-page scanned     13 structured      Trust-tier merge      Human review
+  PDF → OCR           fields with        + conflict flags      + approve/reject
+                      evidence
+```
 
----
-
-## Status
-
-What works today:
-
-- Config loading & validation (`dealflow config validate`)
-- SQLite schema init (`dealflow db init`)
-- OpenRouter client with structured outputs + per-call cost logging
-- **Company entry** (`dealflow add`)
-- **CIM ingestion** (`dealflow ingest-cim path/to/deck.pdf --company-name "Acme"`)
-  — creates the company if it doesn't exist, so you're never gated on it
-- **Web + document extraction** (`dealflow enrich <id>`) — pulls the website,
-  extracts KPIs from every stored source into typed, provenance-tagged rows
-- **Merged KPI view** (`dealflow show <id>`) — trust-tier merge across sources,
-  with conflict flags and evidence
-
-Coming next: screening engine (per-dimension scoring + weighted aggregate),
-research questions, outreach drafts, Airtable sync.
+**Key features:**
+- **CIM ingestion** — handles scanned PDFs via OCR (RapidOCR)
+- **Structured extraction** — LLM pulls KPIs into typed, validated fields
+- **Provenance** — every value links to source text + evidence quote
+- **Configurable** — thesis, KPIs, weights, models all YAML-editable
+- **Cost-tracked** — every LLM call logged with tokens + USD cost
+- **Airtable sync** — push to your review dashboard, pull human edits back
 
 ---
 
-## Setup
+## Quick start
 
 Requires Python 3.12+ and [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
 git clone https://github.com/salbano210/dealflow.git
 cd dealflow
-uv sync                              # creates .venv and installs deps
-cp .env.example .env                 # then edit .env and add your OpenRouter key
-uv run dealflow config validate      # sanity-check the config files
-uv run dealflow db init              # create the SQLite database
-uv run dealflow --help
+uv sync
+cp .env.example .env   # add your OpenRouter key
+uv run dealflow db init
 ```
 
-You need your own [OpenRouter API key](https://openrouter.ai/keys). The key is
-read from `.env`, which is gitignored — no secrets ship with the repo.
+### Ingest a CIM
+
+```bash
+uv run dealflow ingest-cim examples/cims/cus_cim.pdf --company-name "Consolidated Utility Services"
+```
+
+**Output:**
+```
+Trying pypdf extraction on cus_cim.pdf...
+pypdf extracted 0 chars, falling back to OCR (this may take 1-3 minutes)...
+  OCR page 1/58... got 1245 chars
+  OCR page 2/58... got 892 chars
+  ...
+OK -- CIM stored for company id=1, source id=1, 10 KPI rows extracted.
+```
+
+### View extracted KPIs
+
+```bash
+uv run dealflow show 1
+```
+
+**Output:**
+```
+Consolidated Utility Services (id=1) — status=new
+┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃ KPI               ┃ Value          ┃ State ┃ Conf ┃ Evidence           ┃
+┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│ business_model    │ pure_services  │ infer │ 0.80 │ "locating services │
+│                   │                │       │      │  account for 98%"  │
+│ estimated_revenue │ $57.4M         │ known │ 1.00 │ "Revenue $57,442   │
+│                   │                │       │      │  (in thousands)"   │
+│ growth_rate_yoy   │ 4.1%           │ known │ 1.00 │ "Growth Rate 4.1%" │
+│ founder_led       │ True           │ known │ 1.00 │ "Rob Karam is a    │
+│                   │                │       │      │  co-founder"       │
+│ geography         │ US             │ known │ 1.00 │ "Omaha, Nebraska"  │
+│ employee_count    │ 734            │ known │ 1.00 │ "734 employees"    │
+│ customer_conc.    │ Top 10 = 53.5% │ known │ 1.00 │ "Top 10 customers  │
+│                   │                │       │      │  accounted for..." │
+└───────────────────┴────────────────┴───────┴────┴──────────────────────┘
+```
+
+### Sync to Airtable
+
+```bash
+uv run dealflow sync-airtable
+```
+
+Push companies to your Airtable base for human review. Pull edits back with `--pull`.
 
 ---
 
-## Configuration files
+## Configuration
 
-Everything a user might reasonably want to change lives in `config/`:
+Everything is YAML. No code changes needed.
 
 | File | What it controls |
 |---|---|
-| `config/thesis.yaml` | Investment thesis: hard filters + soft criteria + free-text guidance the LLM sees. |
-| `config/kpis.yaml` | The fields the model extracts from CIMs and web sources. |
-| `config/weights.yaml` | Scoring dimensions, weights, and rubrics. Supports both LLM-scored and deterministic (builtin) scorers. |
-| `config/models.yaml` | Which LLM to use at each pipeline step. Any [OpenRouter-supported model](https://openrouter.ai/models). |
+| `config/thesis.yaml` | Investment thesis: hard filters, soft criteria, cost guardrails |
+| `config/kpis.yaml` | Fields to extract (revenue, growth, founder status, etc.) |
+| `config/weights.yaml` | Scoring dimensions + weights (LLM or deterministic) |
+| `config/models.yaml` | Which LLM to use per step (OpenRouter) |
+| `config/airtable.yaml` | Field mappings, status mappings, editable fields |
 
-Adding a new KPI: edit `config/kpis.yaml`. No code, no migration.
-Adding a new scoring dimension: edit `config/weights.yaml`. No code.
-Swapping a model: edit `config/models.yaml`. No code.
+**Add a new KPI:** edit `config/kpis.yaml` → done. No migration, no code.
+
+**Swap models:** edit `config/models.yaml` → done. Works with any OpenRouter model.
 
 ---
 
-## Architecture (high level)
+## Example data
+
+Real extractions from two CIMs in `examples/`:
+
+| Company | Revenue | Growth | Business Model | Data Completeness |
+|---|---|---|---|---|
+| Consolidated Utility Services | $57.4M | 4.1% | pure_services | 80% |
+| American Casino | $429.7M | 4.9% | other | 40% |
+
+Both extracted from scanned PDFs with full evidence provenance.
+
+---
+
+## Architecture
 
 ```
-config/  → thesis.yaml, kpis.yaml, weights.yaml, models.yaml
-db/      → SQLite (source of truth) + provenance/audit tables
-sources/ → website scrape, news, CIM parser        (planned)
-llm/     → OpenRouter client + structured outputs + call logging
-steps/   → enrich, extract, screen, research, outreach   (planned)
-sync/    → Airtable projection (push + pull)      (planned)
-cli/     → Typer entrypoint
+config/     YAML configs (thesis, KPIs, weights, models, Airtable)
+db/         SQLite + SQLAlchemy (source of truth, audit log)
+sources/    CIM parser (pypdf + RapidOCR), website scraper
+llm/        OpenRouter client (structured outputs, cost logging)
+steps/      Pipeline: enrich → extract → merge → score → sync
+sync/       Airtable push/pull
+cli/        Typer entrypoint
+examples/   Sample CIMs + extracted JSON fixtures
 ```
 
-See `DealFlow_AI_Project_Thesis.md` in the repo root for the full product thesis.
+**Design principles:**
+1. **Configuration over code** — change behavior via YAML, not Python
+2. **Deterministic glue, probabilistic leaves** — LLMs only for extraction/judgment
+3. **Every call logged** — prompt, response, tokens, cost, latency
+4. **Human-in-the-loop** — AI drafts, human approves
+5. **Provenance for every claim** — trace any value to its source text
+
+---
+
+## Cost
+
+Typical CIM extraction: **$0.01–0.03** (Gemini 2.5 Flash Lite)
+
+All calls logged to `llm_calls` table with cost, tokens, latency.
 
 ---
 
