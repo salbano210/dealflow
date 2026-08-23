@@ -1,0 +1,46 @@
+[project]
+name = "jackryan"
+version = "0.1.0"
+description = "AI-augmented sourcing & screening workflow for growth-equity analysts."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "salbano210" }]
+license = { text = "MIT" }
+dependencies = [
+    "pydantic>=2.9",
+    "pyyaml>=6.0",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "typer>=0.12",
+    "rich>=13.7",
+    "python-dotenv>=1.0",
+    "httpx>=0.27",
+    "openai>=1.51",           # used as the OpenRouter client (OpenAI-compatible)
+    "tenacity>=9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[project.scripts]
+jackryan = "jackryan.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jackryan"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
