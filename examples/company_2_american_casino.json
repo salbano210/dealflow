@@ -23,6 +23,14 @@
       "url_or_path": "examples/cims/american_casino_cim.pdf",
       "text_length": 72188,
       "retrieved_at": "2026-08-23 23:10:43.552791"
+    },
+    {
+      "id": 7,
+      "kind": "cim",
+      "trust_tier": 3,
+      "url_or_path": "examples/cims/american_casino_cim.pdf",
+      "text_length": 72188,
+      "retrieved_at": "2026-08-23 23:46:30.338939"
     }
   ],
   "extracted_attributes": [
@@ -285,6 +293,136 @@
       "source_id": 4,
       "model": "google/gemini-2.5-flash-lite",
       "extracted_at": "2026-08-23 23:10:47.199879"
+    },
+    {
+      "kpi_key": "business_model",
+      "value": "other",
+      "state": "known",
+      "confidence": 0.8,
+      "evidence": "The company operates four distinct gaming and entertainment properties in Nevada. This is not a typical SaaS or services model.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719709"
+    },
+    {
+      "kpi_key": "target_customer",
+      "value": "tourists and locals in Las Vegas and Laughlin, Nevada",
+      "state": "known",
+      "confidence": 0.9,
+      "evidence": "The Stratosphere caters to visitors to Las Vegas. Arizona Charlie\u2019s properties cater primarily to residents of the Las Vegas metropolitan market. Aquarius Casino Resort caters to visitors from Southern California and Arizona and locals from Laughlin, Nevada.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719713"
+    },
+    {
+      "kpi_key": "estimated_revenue_usd",
+      "value": 429700000.0,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "The table 'Property Summary' shows 'Total' Net Revenue as '$429.7' Million for '2006E PF'.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719715"
+    },
+    {
+      "kpi_key": "growth_rate_yoy",
+      "value": 0.049,
+      "state": "inferred",
+      "confidence": 0.7,
+      "evidence": "The text states 'Protected Net Revenue ($ in millions) 4.9% CAGR \u201806E PF\u2013\u201808E $429.7 $450.9 $472.8'. This implies a growth rate, but not a direct YoY for a past period.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719716"
+    },
+    {
+      "kpi_key": "gross_margin",
+      "value": null,
+      "state": "unknown",
+      "confidence": 1.0,
+      "evidence": "The document provides EBITDA margins and discusses revenue and expenses, but does not explicitly state the gross margin.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719717"
+    },
+    {
+      "kpi_key": "net_revenue_retention",
+      "value": null,
+      "state": "unknown",
+      "confidence": 1.0,
+      "evidence": "There is no mention of net revenue retention in the provided text.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719718"
+    },
+    {
+      "kpi_key": "recurring_revenue_share",
+      "value": null,
+      "state": "unknown",
+      "confidence": 1.0,
+      "evidence": "The business model is not subscription-based, so this metric is not applicable or reported.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719719"
+    },
+    {
+      "kpi_key": "founder_led",
+      "value": null,
+      "state": "unknown",
+      "confidence": 1.0,
+      "evidence": "The document does not provide information about the founders or their current roles.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719720"
+    },
+    {
+      "kpi_key": "founder_ownership_pct",
+      "value": null,
+      "state": "unknown",
+      "confidence": 1.0,
+      "evidence": "There is no information about founder ownership in the provided text.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719720"
+    },
+    {
+      "kpi_key": "employee_count",
+      "value": null,
+      "state": "unknown",
+      "confidence": 1.0,
+      "evidence": "The document does not mention the employee count.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719721"
+    },
+    {
+      "kpi_key": "geography",
+      "value": "US",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "The company owns and operates four distinct gaming and entertainment properties in Nevada, which is in the US.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719722"
+    },
+    {
+      "kpi_key": "market_category",
+      "value": "casinos and entertainment",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "The company owns and operates four distinct gaming and entertainment properties in Nevada.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719723"
+    },
+    {
+      "kpi_key": "customer_concentration",
+      "value": null,
+      "state": "unknown",
+      "confidence": 1.0,
+      "evidence": "The document does not provide any information regarding customer concentration.",
+      "source_id": 7,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:33.719724"
     }
   ],
   "current_merged": {
@@ -293,7 +431,7 @@
       "state": "known",
       "confidence": 0.8,
       "evidence": "The company operates four distinct gaming and entertainment properties in Nevada. This is not a typical SaaS or services model.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "target_customer": {
@@ -301,7 +439,7 @@
       "state": "known",
       "confidence": 0.9,
       "evidence": "The Stratosphere caters to visitors to Las Vegas. Arizona Charlie\u2019s properties cater primarily to residents of the Las Vegas metropolitan market. Aquarius Casino Resort caters to visitors from Southern California and Arizona and locals from Laughlin, Nevada.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "estimated_revenue_usd": {
@@ -309,7 +447,7 @@
       "state": "known",
       "confidence": 1.0,
       "evidence": "The table 'Property Summary' shows 'Total' Net Revenue as '$429.7' Million for '2006E PF'.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "growth_rate_yoy": {
@@ -317,7 +455,7 @@
       "state": "inferred",
       "confidence": 0.7,
       "evidence": "The text states 'Protected Net Revenue ($ in millions) 4.9% CAGR \u201806E PF\u2013\u201808E $429.7 $450.9 $472.8'. This implies a growth rate, but not a direct YoY for a past period.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "gross_margin": {
@@ -325,7 +463,7 @@
       "state": "unknown",
       "confidence": 1.0,
       "evidence": "The document provides EBITDA margins and discusses revenue and expenses, but does not explicitly state the gross margin.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "net_revenue_retention": {
@@ -333,7 +471,7 @@
       "state": "unknown",
       "confidence": 1.0,
       "evidence": "There is no mention of net revenue retention in the provided text.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "recurring_revenue_share": {
@@ -341,7 +479,7 @@
       "state": "unknown",
       "confidence": 1.0,
       "evidence": "The business model is not subscription-based, so this metric is not applicable or reported.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "founder_led": {
@@ -349,7 +487,7 @@
       "state": "unknown",
       "confidence": 1.0,
       "evidence": "The document does not provide information about the founders or their current roles.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "founder_ownership_pct": {
@@ -357,7 +495,7 @@
       "state": "unknown",
       "confidence": 1.0,
       "evidence": "There is no information about founder ownership in the provided text.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "employee_count": {
@@ -365,7 +503,7 @@
       "state": "unknown",
       "confidence": 1.0,
       "evidence": "The document does not mention the employee count.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "geography": {
@@ -373,7 +511,7 @@
       "state": "known",
       "confidence": 1.0,
       "evidence": "The company owns and operates four distinct gaming and entertainment properties in Nevada, which is in the US.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "market_category": {
@@ -381,7 +519,7 @@
       "state": "known",
       "confidence": 1.0,
       "evidence": "The company owns and operates four distinct gaming and entertainment properties in Nevada.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     },
     "customer_concentration": {
@@ -389,7 +527,7 @@
       "state": "unknown",
       "confidence": 1.0,
       "evidence": "The document does not provide any information regarding customer concentration.",
-      "source_id": 4,
+      "source_id": 7,
       "conflict": false
     }
   }

@@ -1,0 +1,186 @@
+{
+  "company": {
+    "id": 3,
+    "name": "TestCo Services",
+    "website": "testco.com",
+    "source": "demo",
+    "status": "new",
+    "created_at": "2026-08-23 23:32:48"
+  },
+  "raw_sources": [
+    {
+      "id": 5,
+      "kind": "user_note",
+      "trust_tier": 3,
+      "url_or_path": null,
+      "text_length": 364,
+      "retrieved_at": "2026-08-23 23:32:58"
+    }
+  ],
+  "extracted_attributes": [
+    {
+      "kpi_key": "estimated_revenue_usd",
+      "value": 18000000,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392065"
+    },
+    {
+      "kpi_key": "growth_rate_yoy",
+      "value": 0.12,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392070"
+    },
+    {
+      "kpi_key": "founder_led",
+      "value": true,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392071"
+    },
+    {
+      "kpi_key": "gross_margin",
+      "value": 0.45,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392071"
+    },
+    {
+      "kpi_key": "employee_count",
+      "value": 85,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392072"
+    },
+    {
+      "kpi_key": "recurring_revenue_share",
+      "value": 0.85,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392072"
+    },
+    {
+      "kpi_key": "market_category",
+      "value": "business services",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392072"
+    },
+    {
+      "kpi_key": "target_customer",
+      "value": "mid-market office buildings",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392073"
+    },
+    {
+      "kpi_key": "business_model",
+      "value": "recurring_saas",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "model": null,
+      "extracted_at": "2026-08-23 23:34:14.392073"
+    }
+  ],
+  "current_merged": {
+    "estimated_revenue_usd": {
+      "value": 18000000,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "growth_rate_yoy": {
+      "value": 0.12,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "founder_led": {
+      "value": true,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "gross_margin": {
+      "value": 0.45,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "employee_count": {
+      "value": 85,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "recurring_revenue_share": {
+      "value": 0.85,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "market_category": {
+      "value": "business services",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "target_customer": {
+      "value": "mid-market office buildings",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    },
+    "business_model": {
+      "value": "recurring_saas",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": null,
+      "source_id": null,
+      "conflict": false
+    }
+  }
+}

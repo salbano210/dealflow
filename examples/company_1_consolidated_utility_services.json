@@ -23,6 +23,14 @@
       "url_or_path": "examples/cims/cus_cim.pdf",
       "text_length": 114873,
       "retrieved_at": "2026-08-23 23:10:36.452493"
+    },
+    {
+      "id": 6,
+      "kind": "cim",
+      "trust_tier": 3,
+      "url_or_path": "examples/cims/cus_cim.pdf",
+      "text_length": 114873,
+      "retrieved_at": "2026-08-23 23:46:22.862590"
     }
   ],
   "extracted_attributes": [
@@ -225,55 +233,155 @@
       "source_id": 3,
       "model": "google/gemini-2.5-flash-lite",
       "extracted_at": "2026-08-23 23:10:41.060976"
+    },
+    {
+      "kpi_key": "business_model",
+      "value": "pure_services",
+      "state": "known",
+      "confidence": 0.9,
+      "evidence": "The Company provides an integrated suite of services, including: Underground utility locating services... One-call management... claimsofdamagedinfrastructure... Auditandcomplianceservices... As discussed above, locating services currently account for approximately 98 percent of the Company's revenue.",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858440"
+    },
+    {
+      "kpi_key": "target_customer",
+      "value": "utility, telecommunications, and cable industries",
+      "state": "known",
+      "confidence": 0.9,
+      "evidence": "The Company provides this suite of services to customers from the utility (gas, electric, water, sewer, etc.), telecommunications and cable industries...",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858444"
+    },
+    {
+      "kpi_key": "estimated_revenue_usd",
+      "value": 57400000.0,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Based on the pro-forma combined sales of ProMark and Great Plains in 2002 and the projected fullyear consolidated results for 2006, the Company has grown revenue from $44.4 million to $57.4 million...",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858446"
+    },
+    {
+      "kpi_key": "growth_rate_yoy",
+      "value": 0.041,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Revenue N/A 8.3% 4.1% 5.4% 6.0% 7.1% (for 2004-2005)",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858447"
+    },
+    {
+      "kpi_key": "gross_margin",
+      "value": 0.6,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Margin Analysis Gross Profit 59.0% 59.1% 60.0% 60.9% 59.1% 60.5% (for 2004, 2005, E2006, 2007, yTD 2005, yTD 2006)",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858448"
+    },
+    {
+      "kpi_key": "founder_led",
+      "value": true,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Prior to founding Cus, CEO Rob Karam and COO Brian Johnson led UtiliQuest LLC... Rob A. Karam-President and Chief Executive Officer Robisaco-founder of the Company. Brian R. Johnson-Vice President and Chief Operating Officer. Brian worked with Rob Karam, ACAS and River to co-found the Company in 2004.",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858449"
+    },
+    {
+      "kpi_key": "employee_count",
+      "value": 734.0,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "As of September 30, 2006, the Company employed approximately 734 employees.",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858449"
+    },
+    {
+      "kpi_key": "geography",
+      "value": "US",
+      "state": "known",
+      "confidence": 0.9,
+      "evidence": "Managed from its headquarters in Omaha, Nebraska...",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858450"
+    },
+    {
+      "kpi_key": "market_category",
+      "value": "utility damage prevention services",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Consolidated Ltility Services, Inc.(\"CuS\"or the\"Company\")is an industry-leading and geographically diversified provider of afull spectrum of utility damage prevention process services and solutions, including underground utility locating...",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858451"
+    },
+    {
+      "kpi_key": "customer_concentration",
+      "value": "Top 10 customers accounted for 53.5% of YTD September 2006 revenue. Largest customer (Bellsouth) at approximately 9%. Only five clients individually accounted for more than 5% of YTD September 2006 revenues.",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "yTD2006,its top10customersaccountedforapproximately53.5percentofrevenuewithnocustomeraccountingformorethan9.2percent...Onlyfiveclientsindividuallyaccountedformorethan5percentofyTDSeptember2006revenues,withthelargestbeingBellsouth,atapproximately9percent.",
+      "source_id": 6,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 23:46:27.858451"
     }
   ],
   "current_merged": {
     "business_model": {
       "value": "pure_services",
-      "state": "inferred",
-      "confidence": 0.8,
-      "evidence": "CuS's core business is broadly correlated with the overall long-term level of activity within the $1.2 trillion North American construction market. In this context, \"construction\" refers to the installation of fixed infrastructures, including utility lines, transportation routes, communications systems, as well as commercial, industrial and residential structures. As discussed above, locating services currently account for approximately 98 percent of the Company's revenue.",
-      "source_id": 3,
+      "state": "known",
+      "confidence": 0.9,
+      "evidence": "The Company provides an integrated suite of services, including: Underground utility locating services... One-call management... claimsofdamagedinfrastructure... Auditandcomplianceservices... As discussed above, locating services currently account for approximately 98 percent of the Company's revenue.",
+      "source_id": 6,
       "conflict": false
     },
     "target_customer": {
       "value": "utility, telecommunications, and cable industries",
       "state": "known",
-      "confidence": 1.0,
-      "evidence": "The Company provides this suite of services to customers from the utility (gas, electric, water, sewer, etc.), telecommunications and cable industries for whom such services are non-core activities.",
-      "source_id": 3,
+      "confidence": 0.9,
+      "evidence": "The Company provides this suite of services to customers from the utility (gas, electric, water, sewer, etc.), telecommunications and cable industries...",
+      "source_id": 6,
       "conflict": false
     },
     "estimated_revenue_usd": {
-      "value": 57442000.0,
+      "value": 57400000.0,
       "state": "known",
       "confidence": 1.0,
-      "evidence": "Summary Historical & Projected Operating Statistics: Revenue $57,442 (in thousands) for 2006.",
-      "source_id": 3,
-      "conflict": false
+      "evidence": "Based on the pro-forma combined sales of ProMark and Great Plains in 2002 and the projected fullyear consolidated results for 2006, the Company has grown revenue from $44.4 million to $57.4 million...",
+      "source_id": 6,
+      "conflict": true
     },
     "growth_rate_yoy": {
       "value": 0.041,
       "state": "known",
       "confidence": 1.0,
-      "evidence": "Growth Rate Analysis: Revenue 4.1% for 2006.",
-      "source_id": 3,
+      "evidence": "Revenue N/A 8.3% 4.1% 5.4% 6.0% 7.1% (for 2004-2005)",
+      "source_id": 6,
       "conflict": false
     },
     "gross_margin": {
       "value": 0.6,
       "state": "known",
       "confidence": 1.0,
-      "evidence": "Margin Analysis: Gross Profit 60.0% for 2006.",
-      "source_id": 3,
+      "evidence": "Margin Analysis Gross Profit 59.0% 59.1% 60.0% 60.9% 59.1% 60.5% (for 2004, 2005, E2006, 2007, yTD 2005, yTD 2006)",
+      "source_id": 6,
       "conflict": false
     },
     "founder_led": {
       "value": true,
       "state": "known",
       "confidence": 1.0,
-      "evidence": "Rob A. Karam-President and Chief Executive Officer Rob is a co-founder of the Company. Brian R. Johnson-Vice President and Chief Operating Officer. Brian worked with Rob Karam, ACAS and River to co-found the Company in 2004.",
-      "source_id": 3,
+      "evidence": "Prior to founding Cus, CEO Rob Karam and COO Brian Johnson led UtiliQuest LLC... Rob A. Karam-President and Chief Executive Officer Robisaco-founder of the Company. Brian R. Johnson-Vice President and Chief Operating Officer. Brian worked with Rob Karam, ACAS and River to co-found the Company in 2004.",
+      "source_id": 6,
       "conflict": false
     },
     "employee_count": {
@@ -281,32 +389,32 @@
       "state": "known",
       "confidence": 1.0,
       "evidence": "As of September 30, 2006, the Company employed approximately 734 employees.",
-      "source_id": 3,
+      "source_id": 6,
       "conflict": false
     },
     "geography": {
       "value": "US",
       "state": "known",
-      "confidence": 1.0,
-      "evidence": "Managed from its headquarters in Omaha, Nebraska, CuS's 800-person workforce operates in 15 states and the Canadian province of Alberta.",
-      "source_id": 3,
+      "confidence": 0.9,
+      "evidence": "Managed from its headquarters in Omaha, Nebraska...",
+      "source_id": 6,
       "conflict": false
     },
     "market_category": {
       "value": "utility damage prevention services",
       "state": "known",
       "confidence": 1.0,
-      "evidence": "Consolidated Utility Services, Inc. (\"CuS\" or the \"Company\") is an industry-leading and geographically diversified provider of a full spectrum of utility damage prevention process services and solutions, including underground utility locating, one-call management, and asset management services.",
-      "source_id": 3,
+      "evidence": "Consolidated Ltility Services, Inc.(\"CuS\"or the\"Company\")is an industry-leading and geographically diversified provider of afull spectrum of utility damage prevention process services and solutions, including underground utility locating...",
+      "source_id": 6,
       "conflict": false
     },
     "customer_concentration": {
-      "value": "Top 10 customers accounted for 53.5% of YTD September 2006 revenue. Largest customer (Bellsouth) at approximately 9%.",
+      "value": "Top 10 customers accounted for 53.5% of YTD September 2006 revenue. Largest customer (Bellsouth) at approximately 9%. Only five clients individually accounted for more than 5% of YTD September 2006 revenues.",
       "state": "known",
       "confidence": 1.0,
-      "evidence": "Only five clients individually accounted for more than 5% of YTD September 2006 revenues, with the largest being Bellsouth, at approximately 9 percent.",
-      "source_id": 3,
-      "conflict": false
+      "evidence": "yTD2006,its top10customersaccountedforapproximately53.5percentofrevenuewithnocustomeraccountingformorethan9.2percent...Onlyfiveclientsindividuallyaccountedformorethan5percentofyTDSeptember2006revenues,withthelargestbeingBellsouth,atapproximately9percent.",
+      "source_id": 6,
+      "conflict": true
     }
   }
 }

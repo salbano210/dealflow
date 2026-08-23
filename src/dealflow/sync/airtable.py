@@ -96,7 +96,7 @@ def _build_record_fields(
                 continue
             field = source.split(".", 1)[1]
             if field == "total_score":
-                record[airtable_field] = round(screening.total_score, 1)
+                record[airtable_field] = f"{screening.total_score:.1f}"
             elif field == "passed_hard_filters":
                 record[airtable_field] = "PASS" if screening.passed_hard_filters else "FAIL"
             elif field == "failures_text":
