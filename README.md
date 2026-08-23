@@ -87,6 +87,43 @@ Consolidated Utility Services (id=1) — status=new
 └───────────────────┴────────────────┴───────┴────┴──────────────────────┘
 ```
 
+### Screen against thesis
+
+```bash
+uv run dealflow screen 3
+```
+
+**Output:**
+```
+Investment Fit: 69/100
+
+  customer_retention    85.0/100  (weight: 20%)
+    High recurring revenue (85%) indicates strong customer 
+    stickiness and predictable revenue stream.
+
+  market_category       85.0/100  (weight: 10%)
+    Business services is a preferred market. B2B focus on 
+    mid-market office buildings aligns with thesis.
+
+  employee_count        84.7/100  (weight: 8%)
+    85 employees — capital-efficient operations.
+
+  founder_led           80.0/100  (weight: 25%)
+    Founder is CEO, but ownership percentage unknown.
+
+  data_completeness     80.0/100  (weight: 5%)
+    4/5 required KPIs known.
+
+  growth_rate           60.0/100  (weight: 12%)
+    12% YoY growth — moderate, in target range.
+
+  revenue_scale         28.9/100  (weight: 5%)
+    $18M revenue — below $50M target midpoint.
+
+  financial_control     25.0/100  (weight: 15%)
+    45% gross margin below 50% threshold. No EBITDA data.
+```
+
 ### Sync to Airtable
 
 ```bash
