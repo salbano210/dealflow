@@ -52,7 +52,7 @@ def extract_from_source(
     user_prompt = (
         f"Extract the following KPIs from the source text below.\n\n"
         f"KPIs to extract:\n{catalog}\n\n"
-        f"--- SOURCE TEXT START ---\n{source.text}\n--- SOURCE TEXT END ---"
+        f"--- SOURCE TEXT START ---\n{source.text_blob}\n--- SOURCE TEXT END ---"
     )
 
     client = get_client(config)
