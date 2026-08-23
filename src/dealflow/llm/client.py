@@ -129,8 +129,8 @@ class LLMClient:
             call_id = _log_call(
                 step=step,
                 model=step_cfg.model,
-                system=system,
-                user=kwargs["messages"][-1]["content"],
+                system_prompt=system,
+                user_prompt=kwargs["messages"][-1]["content"],
                 response_text=text,
                 response_json=(parsed.model_dump() if parsed else None),
                 tokens_in=tokens_in,
