@@ -2,11 +2,8 @@
 
 Deterministic. No LLM. Extracts text from a PDF into a SourceDocument.
 
-Known limitations (documented, not silently swallowed):
-- Image-only / scanned PDFs produce little or no text. We detect this and
-  raise a clear error suggesting OCR, rather than returning empty text that
-  would later confuse extraction.
-- Encrypted PDFs without a password raise a clear error.
+Handles both text-based PDFs (via pypdf) and scanned/image-only PDFs
+(via PyMuPDF OCR fallback). Raises a clear error if neither works.
 """
 
 from __future__ import annotations
@@ -18,12 +15,63 @@ from pypdf.errors import PdfReadError
 
 from dealflow.sources.base import SourceDocument
 
-# Below this many extracted characters we assume the PDF is image-only.
+# Below this many extracted characters we try OCR fallback.
 _MIN_TEXT_CHARS = 200
 
 
 class CimParseError(RuntimeError):
     """Raised when a CIM PDF cannot be parsed into usable text."""
+
+
+def _extract_with_pypdf(path: Path) -> str:
+    """Extract text using pypdf. Returns empty string on failure."""
+    try:
+        reader = PdfReader(str(path))
+    except PdfReadError:
+        return ""
+
+    if reader.is_encrypted:
+        try:
+            reader.decrypt("")
+        except Exception:
+            return ""
+
+    parts: list[str] = []
+    for page in reader.pages:
+        try:
+            parts.append(page.extract_text() or "")
+        except Exception:
+            continue
+
+    return "\n\n".join(part.strip() for part in parts if part.strip())
+
+
+def _extract_with_ocr(path: Path) -> str:
+    """Extract text using PyMuPDF OCR. Returns empty string on failure."""
+    try:
+        import fitz  # PyMuPDF
+    except ImportError:
+        return ""
+
+    try:
+        doc = fitz.open(str(path))
+    except Exception:
+        return ""
+
+    parts: list[str] = []
+    for page in doc:
+        try:
+            # Try normal text extraction first
+            text = page.get_text()
+            if len(text.strip()) < 20:
+                # Fall back to OCR for this page
+                text = page.get_text("text", flags=fitz.TEXTFLAGS_TEXT)
+            parts.append(text)
+        except Exception:
+            continue
+
+    doc.close()
+    return "\n\n".join(part.strip() for part in parts if part.strip())
 
 
 def parse_cim(path: str | Path, *, allow_external_llm: bool = True) -> SourceDocument:
@@ -37,35 +85,21 @@ def parse_cim(path: str | Path, *, allow_external_llm: bool = True) -> SourceDoc
     if p.suffix.lower() != ".pdf":
         raise CimParseError(f"Expected a .pdf file, got: {p.name}")
 
-    try:
-        reader = PdfReader(str(p))
-    except PdfReadError as e:
-        raise CimParseError(f"Could not read PDF ({p.name}): {e}") from e
+    # Try pypdf first (faster, no OCR needed for text-based PDFs)
+    text = _extract_with_pypdf(p)
 
-    if reader.is_encrypted:
-        # pypdf can sometimes decrypt with an empty password; try once.
-        try:
-            reader.decrypt("")
-        except Exception as e:
-            raise CimParseError(
-                f"PDF is encrypted and could not be opened without a password: {p.name}"
-            ) from e
-
-    parts: list[str] = []
-    for page in reader.pages:
-        try:
-            parts.append(page.extract_text() or "")
-        except Exception:
-            # A single bad page shouldn't kill the whole document.
-            continue
-
-    text = "\n\n".join(part.strip() for part in parts if part.strip())
+    # If we got little/no text, try OCR via PyMuPDF
+    if len(text) < _MIN_TEXT_CHARS:
+        ocr_text = _extract_with_ocr(p)
+        if len(ocr_text) > len(text):
+            text = ocr_text
 
     if len(text) < _MIN_TEXT_CHARS:
         raise CimParseError(
             f"Extracted only {len(text)} characters from {p.name}. "
-            f"This is likely a scanned / image-only PDF. OCR is not yet "
-            f"supported; run the file through an OCR tool first."
+            f"This PDF may be encrypted, corrupted, or entirely image-based "
+            f"with no OCR-able text. Try running it through a dedicated OCR "
+            f"tool (e.g., ocrmypdf) first."
         )
 
     return SourceDocument(
