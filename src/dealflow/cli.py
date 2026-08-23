@@ -456,7 +456,7 @@ def screen_cmd(
 
     # Score display
     score_color = "green" if result.total_score >= 70 else "yellow" if result.total_score >= 50 else "red"
-    console.print(f"[bold {score_color}]Investment Fit: {result.total_score:.0f}/100[/{score_color}]")
+    console.print(f"[bold {score_color}]Investment Fit: {result.total_score:.0f}/100[/bold {score_color}]")
     console.print()
 
     for dim in sorted(result.dimensions, key=lambda d: d.score, reverse=True):
