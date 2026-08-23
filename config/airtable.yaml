@@ -13,18 +13,18 @@ table_name: "Table 1"
 #     "computed.<name>"    — computed field (e.g. data_completeness)
 fields:
   Name: company.name
-  Website: company.website
+  URL: company.website
   Status: company.status
   Source: company.source
-  Business Model: kpi.business_model
+  Business model: kpi.business_model
   Revenue: kpi.estimated_revenue_usd
   Growth Rate: kpi.growth_rate_yoy
-  Founder Led: kpi.founder_led
-  Geography: kpi.geography
-  Market Category: kpi.market_category
-  Target Customer: kpi.target_customer
-  Employee Count: kpi.employee_count
-  Data Completeness: computed.data_completeness
+  Founder led: kpi.founder_led
+  Geo: kpi.geography
+  Market category: kpi.market_category
+  Target customer: kpi.target_customer
+  employees: kpi.employee_count
+  data completeness: computed.data_completeness
 
 # Fields that humans can edit in Airtable (pulled back to DB).
 # Everything else is read-only (AI-owned).
