@@ -26,6 +26,15 @@ fields:
   employees: kpi.employee_count
   data completeness: computed.data_completeness
 
+# Map our status values to Airtable's single-select options.
+# Airtable "Status" field only allows: Todo, In progress, Done
+status_mapping:
+  new: Todo
+  screened: In progress
+  pursue: In progress
+  reject: Done
+  defer: Done
+
 # Fields that humans can edit in Airtable (pulled back to DB).
 # Everything else is read-only (AI-owned).
 human_editable_fields:

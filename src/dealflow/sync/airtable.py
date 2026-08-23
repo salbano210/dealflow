@@ -53,12 +53,17 @@ def _build_record_fields(
 ) -> dict[str, Any]:
     """Build the Airtable fields dict for one company."""
     fields_cfg = cfg.get("fields", {})
+    status_mapping = cfg.get("status_mapping", {})
     record: dict[str, Any] = {}
 
     for airtable_field, source in fields_cfg.items():
         if source.startswith("company."):
             attr = source.split(".", 1)[1]
-            record[airtable_field] = getattr(company, attr, None)
+            value = getattr(company, attr, None)
+            # Map status values to Airtable's single-select options
+            if attr == "status" and value in status_mapping:
+                value = status_mapping[value]
+            record[airtable_field] = value
         elif source.startswith("kpi."):
             kpi_key = source.split(".", 1)[1]
             if kpi_key in attrs:
