@@ -1,0 +1,83 @@
+# KPIs the model extracts from company evidence (CIMs, websites, news).
+#
+# `key`         -- machine name, stable identifier (used in DB + Airtable)
+# `type`        -- number | percent | boolean | string | enum
+# `required`    -- if true, absence of this KPI hurts the data_completeness score
+# `description` -- human-readable label
+# `extraction_hint` -- guidance shown to the extraction LLM
+#
+# Add / remove KPIs freely. No code or DB migration required --
+# the DB stores attributes in an EAV table.
+
+- key: business_model
+  type: enum
+  enum_values: [recurring_saas, tech_enabled_services, marketplace, transactional, pure_services, hardware_only, other]
+  required: true
+  description: "Primary business model."
+  extraction_hint: "Choose the closest category. Prefer 'recurring_saas' when >70% of revenue is subscription-based."
+
+- key: target_customer
+  type: string
+  required: false
+  description: "Primary customer segment (industry + size)."
+  extraction_hint: "E.g. 'mid-market manufacturers', 'enterprise fintech', 'SMB retailers'."
+
+- key: estimated_revenue_usd
+  type: number
+  unit: USD
+  required: true
+  description: "Trailing twelve-month revenue in USD."
+  extraction_hint: "Look for ARR, TTM revenue, or last-fiscal-year revenue. Convert to USD if needed."
+
+- key: growth_rate_yoy
+  type: percent
+  required: true
+  description: "Year-over-year revenue growth as a decimal (0.38 = 38%)."
+  extraction_hint: "Prefer most recent full-year YoY figure."
+
+- key: gross_margin
+  type: percent
+  required: false
+  description: "Gross margin as a decimal."
+
+- key: net_revenue_retention
+  type: percent
+  required: false
+  description: "Net revenue retention (dollar-based), as a decimal (1.15 = 115%)."
+
+- key: recurring_revenue_share
+  type: percent
+  required: false
+  description: "Percentage of revenue that is recurring / subscription-based."
+
+- key: founder_led
+  type: boolean
+  required: true
+  description: "True iff at least one founder is still in a C-level role."
+
+- key: founder_ownership_pct
+  type: percent
+  required: false
+  description: "Estimated aggregate founder ownership percentage."
+
+- key: employee_count
+  type: number
+  required: false
+  description: "Approximate current headcount."
+
+- key: geography
+  type: enum
+  enum_values: [US, CA, UK, EU, LATAM, APAC, OTHER]
+  required: true
+  description: "Primary geography of headquarters."
+
+- key: market_category
+  type: string
+  required: false
+  description: "Market or vertical the company operates in."
+  extraction_hint: "E.g. 'supply chain software', 'HR tech', 'developer tools'."
+
+- key: customer_concentration
+  type: string
+  required: false
+  description: "Notes on customer concentration risk (top customer %, top 10 %)."

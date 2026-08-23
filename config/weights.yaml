@@ -1,0 +1,92 @@
+# Scoring dimensions.
+#
+# Each dimension has:
+#   key      -- machine name
+#   weight   -- fraction of total score (all weights must sum to 1.0)
+#   scorer   -- 'llm' (LLM-judged via rubric) or 'builtin.<name>' (deterministic)
+#   inputs   -- KPI keys this dimension consumes (must exist in kpis.yaml)
+#   rubric   -- for llm scorers: instructions the model follows
+#   config   -- for builtin scorers: scorer-specific parameters
+#
+# Total score is normalized to 0-100 regardless of weight values.
+# Adding a new dimension: just append here.
+
+dimensions:
+  - key: revenue_growth
+    weight: 0.22
+    scorer: llm
+    inputs: [growth_rate_yoy]
+    rubric: |
+      Score 0-100 based on YoY revenue growth:
+      >50%  = 100
+      40-50% = 90
+      30-40% = 75
+      25-30% = 60
+      20-25% = 40
+      <20%  = 15
+      unknown = 0 (and note the missing evidence)
+
+  - key: business_model
+    weight: 0.18
+    scorer: llm
+    inputs: [business_model, recurring_revenue_share, gross_margin]
+    rubric: |
+      Score 0-100:
+      - recurring_saas with >75% recurring revenue and >70% gross margin: 90-100
+      - recurring_saas with weaker recurring share or margin: 60-85
+      - tech_enabled_services: 40-70
+      - marketplace / transactional: 30-60
+      - pure_services / hardware_only: 0-20
+      Reduce score if gross margin is unknown or clearly weak.
+
+  - key: founder_ownership
+    weight: 0.12
+    scorer: llm
+    inputs: [founder_led, founder_ownership_pct]
+    rubric: |
+      Full points (100) if founder-led AND estimated founder ownership >30%.
+      75 if founder-led but ownership <30% or unknown.
+      40 if not founder-led but a founder is still on the board / active.
+      10 if fully professionalized management with no founder presence.
+
+  - key: market_attractiveness
+    weight: 0.15
+    scorer: llm
+    inputs: [market_category, target_customer, business_model]
+    rubric: |
+      Judge based on secular tailwinds, pricing power evidence, and fit
+      with the preferred_markets list in the thesis. Reward clear vertical
+      focus and defensible niches. Penalize crowded horizontal markets
+      without differentiation. If evidence is thin, cap the score at 60
+      and flag the missing information.
+
+  - key: scale
+    weight: 0.08
+    scorer: builtin.threshold
+    inputs: [estimated_revenue_usd]
+    config:
+      # Points ramp from 0 at min to 100 at target, then flat.
+      field: estimated_revenue_usd
+      min: 20_000_000
+      target: 100_000_000
+
+  - key: competitive_positioning
+    weight: 0.15
+    scorer: llm
+    inputs: [market_category, target_customer, business_model]
+    rubric: |
+      Judge defensibility: proprietary data, workflow integration, switching
+      costs, network effects, brand. Score 0-100. Cap at 50 if evidence is
+      limited to marketing copy; require third-party corroboration for
+      scores above 75.
+
+  - key: data_completeness
+    weight: 0.10
+    scorer: builtin.completeness
+    inputs: []
+    config:
+      # Fraction of `required: true` KPIs (from kpis.yaml) that are in
+      # 'known' state (not 'inferred', not 'unknown'). Scaled 0-100.
+      # This is the criterion that rewards companies with better reporting.
+      required_only: true
+      count_inferred_as_half: true

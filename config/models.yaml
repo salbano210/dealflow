@@ -1,0 +1,49 @@
+# Model routing. Every pipeline step reads its model from this file.
+# Swap models with a single-line edit -- no code changes.
+#
+# `model` -- any OpenRouter-supported slug (https://openrouter.ai/models)
+# `temp`  -- sampling temperature (0.0 for extraction; higher for prose)
+#
+# All calls go through the OpenRouter API (OpenAI-compatible).
+
+steps:
+  # ------- Extraction (deterministic, cheap models preferred) -------
+  extract_from_website:
+    model: openai/gpt-4o-mini
+    temp: 0.0
+
+  extract_from_cim:
+    model: openai/gpt-4o-mini
+    temp: 0.0
+    # CIMs can be long; give this step more room.
+    max_tokens: 4096
+
+  # ------- Screening (per-dimension) -------
+  # Default scorer used for LLM-judged dimensions unless overridden below.
+  score_dimension_default:
+    model: openai/gpt-4o-mini
+    temp: 0.0
+
+  # Override for the nuanced dimensions that benefit from a stronger model.
+  score_dimension_market_attractiveness:
+    model: anthropic/claude-sonnet-4
+    temp: 0.2
+
+  score_dimension_competitive_positioning:
+    model: anthropic/claude-sonnet-4
+    temp: 0.2
+
+  # ------- Downstream generation -------
+  generate_research_questions:
+    model: openai/gpt-4o-mini
+    temp: 0.3
+
+  draft_outreach:
+    model: anthropic/claude-sonnet-4
+    temp: 0.5
+
+# OpenRouter connection settings.
+openrouter:
+  base_url: https://openrouter.ai/api/v1
+  timeout_seconds: 60
+  max_retries: 3
