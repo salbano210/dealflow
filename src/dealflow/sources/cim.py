@@ -47,31 +47,44 @@ def _extract_with_pypdf(path: Path) -> str:
 
 
 def _extract_with_ocr(path: Path) -> str:
-    """Extract text using PyMuPDF OCR. Returns empty string on failure."""
+    """Extract text using ocrmypdf + PyMuPDF. Returns empty string on failure."""
+    import tempfile
+
     try:
-        import fitz  # PyMuPDF
+        import ocrmypdf
+        import pymupdf
     except ImportError:
         return ""
 
+    # Create a temp file for the OCR'd output
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
+        tmp_path = tmp.name
+
     try:
-        doc = fitz.open(str(path))
+        # Run ocrmypdf on the input PDF
+        ocrmypdf.ocr(
+            input_file=str(path),
+            output_file=tmp_path,
+            skip_text=True,  # Only OCR pages without text
+            progress_bar=False,
+            quiet=True,
+        )
+
+        # Extract text from the OCR'd PDF using PyMuPDF
+        doc = pymupdf.open(tmp_path)
+        parts: list[str] = []
+        for page in doc:
+            try:
+                parts.append(page.get_text())
+            except Exception:
+                continue
+        doc.close()
+        return "\n\n".join(part.strip() for part in parts if part.strip())
     except Exception:
         return ""
-
-    parts: list[str] = []
-    for page in doc:
-        try:
-            # Try normal text extraction first
-            text = page.get_text()
-            if len(text.strip()) < 20:
-                # Fall back to OCR for this page
-                text = page.get_text("text", flags=fitz.TEXTFLAGS_TEXT)
-            parts.append(text)
-        except Exception:
-            continue
-
-    doc.close()
-    return "\n\n".join(part.strip() for part in parts if part.strip())
+    finally:
+        # Clean up temp file
+        Path(tmp_path).unlink(missing_ok=True)
 
 
 def parse_cim(path: str | Path, *, allow_external_llm: bool = True) -> SourceDocument:
