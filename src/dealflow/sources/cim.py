@@ -46,7 +46,7 @@ def _extract_with_pypdf(path: Path) -> str:
     return "\n\n".join(part.strip() for part in parts if part.strip())
 
 
-def _extract_with_ocr(path: Path) -> str:
+def _extract_with_ocr(path: Path, verbose: bool = False) -> str:
     """Extract text using RapidOCR (pure Python, no external binaries).
 
     Returns empty string on failure.
@@ -67,6 +67,8 @@ def _extract_with_ocr(path: Path) -> str:
 
     for page_num in range(len(doc)):
         page = doc[page_num]
+        if verbose:
+            print(f"  OCR page {page_num + 1}/{len(doc)}...", end="", flush=True)
         try:
             # Render page to image
             pix = page.get_pixmap(matrix=pymupdf.Matrix(2, 2))  # 2x zoom for better OCR
@@ -78,14 +80,22 @@ def _extract_with_ocr(path: Path) -> str:
                 text = "\n".join([line[1] for line in result if line[1]])
                 if text.strip():
                     parts.append(text)
-        except Exception:
+                    if verbose:
+                        print(f" got {len(text)} chars")
+                elif verbose:
+                    print(" no text found")
+            elif verbose:
+                print(" no text found")
+        except Exception as e:
+            if verbose:
+                print(f" error: {e}")
             continue
 
     doc.close()
     return "\n\n".join(part.strip() for part in parts if part.strip())
 
 
-def parse_cim(path: str | Path, *, allow_external_llm: bool = True) -> SourceDocument:
+def parse_cim(path: str | Path, *, allow_external_llm: bool = True, verbose: bool = False) -> SourceDocument:
     """Parse a CIM PDF at `path` into a SourceDocument.
 
     Raises CimParseError with an actionable message on failure.
@@ -97,11 +107,15 @@ def parse_cim(path: str | Path, *, allow_external_llm: bool = True) -> SourceDoc
         raise CimParseError(f"Expected a .pdf file, got: {p.name}")
 
     # Try pypdf first (faster, no OCR needed for text-based PDFs)
+    if verbose:
+        print(f"Trying pypdf extraction on {p.name}...")
     text = _extract_with_pypdf(p)
 
-    # If we got little/no text, try OCR via PyMuPDF
+    # If we got little/no text, try OCR via RapidOCR
     if len(text) < _MIN_TEXT_CHARS:
-        ocr_text = _extract_with_ocr(p)
+        if verbose:
+            print(f"pypdf extracted {len(text)} chars, falling back to OCR (this may take 1-3 minutes)...")
+        ocr_text = _extract_with_ocr(p, verbose=verbose)
         if len(ocr_text) > len(text):
             text = ocr_text
 

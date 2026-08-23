@@ -43,5 +43,5 @@ def enrich_from_cim(
     session: Session, company_id: int, path: str, *, allow_external_llm: bool = True
 ) -> RawSource:
     """Parse a CIM PDF and store it as a raw source."""
-    doc = parse_cim(path, allow_external_llm=allow_external_llm)
+    doc = parse_cim(path, allow_external_llm=allow_external_llm, verbose=True)
     return store_source(session, company_id, doc)
