@@ -2,37 +2,40 @@
 # Editable. Bump `version` whenever you change substantive criteria --
 # every screening records which thesis version scored it.
 
-name: "Growth Equity — Founder-Led B2B Software"
-version: 1
+name: "Lower Middle Market Founder-Led"
+version: 2
 
 # Hard filters: pure Python, no LLM. Instant reject if violated.
 hard_filters:
   min_revenue_usd: 5_000_000
-  geography_allowlist: [US, CA]
-  business_model_blocklist: [pure_services, hardware_only]
+  max_revenue_usd: 50_000_000
+  founder_led_required: true
 
 # Soft criteria: injected into the screening prompt for LLM-judged dimensions.
 soft_criteria:
-  business_model_preferred: [recurring_saas, tech_enabled_services]
-  founder_ownership: preferred
-  min_growth_rate: 0.20
   preferred_markets:
-    - vertical_saas
-    - supply_chain_software
-    - data_infrastructure
+    - business_services
+    - healthcare_services
+    - industrial_services
+    - consumer_services
+    - niche_manufacturing
+    - distribution
 
 # Free-text guidance the LLM sees verbatim in its system prompt.
-# Edit this to steer qualitative judgment without changing code.
 notes: |
-  We invest in growth-stage, founder-led B2B software companies with strong
-  recurring revenue, capital efficiency, and defensible market positions.
-  We prefer businesses where the founder is still meaningfully involved and
-  the company has reached enough scale to have a proven go-to-market motion.
+  We invest in founder-led, lower-middle-market services businesses.
+  We want companies that are profitable or near-profitable, not burning cash.
+  We prefer low employee counts (capital-efficient operations).
+  Customer retention is critical — recurring revenue or sticky relationships.
 
-  When judging market attractiveness, weight secular tailwinds and evidence
-  of pricing power over TAM claims. When judging competition, favor
-  companies with a defensible wedge over those in crowded horizontal markets.
+  Revenue range: $5M - $50M (hard filter)
+  Founder-led: required (hard filter)
+
+  Financial control matters: we want EBITDA positive or near-positive.
+  Customer retention matters: high switching costs, long relationships.
+
+  Avoid: venture-scale burn, high customer churn, non-founder-led.
 
 # Cost guardrail: if a single company's pipeline run exceeds this in LLM
 # spend (summed across all steps), the pipeline halts and logs a warning.
-max_cost_per_company_usd: 0.20
+max_cost_per_company_usd: 0.10

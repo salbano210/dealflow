@@ -25,11 +25,11 @@ steps:
     temp: 0.0
 
   # Override for the nuanced dimensions that benefit from a stronger model.
-  score_dimension_market_attractiveness:
+  score_dimension_market_category:
     model: anthropic/claude-sonnet-4
     temp: 0.2
 
-  score_dimension_competitive_positioning:
+  score_dimension_financial_control:
     model: anthropic/claude-sonnet-4
     temp: 0.2
 

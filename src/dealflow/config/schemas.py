@@ -15,9 +15,11 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 class HardFilters(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    min_revenue_usd: float
+    min_revenue_usd: float | None = None
+    max_revenue_usd: float | None = None
     geography_allowlist: list[str] = Field(default_factory=list)
     business_model_blocklist: list[str] = Field(default_factory=list)
+    founder_led_required: bool = False
 
 
 class SoftCriteria(BaseModel):

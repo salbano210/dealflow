@@ -422,5 +422,53 @@ def export_cmd(
     console.print(f"[bold green]OK[/bold green] -- exported to {out}/")
 
 
+# ------------------------------------------------------------- screen ----
+
+@app.command("screen")
+def screen_cmd(
+    company_id: int = typer.Argument(..., help="Company id to screen"),
+) -> None:
+    """Screen a company against the investment thesis. Produces 0-100 score."""
+    from dealflow.db import init_db
+    from dealflow.db.session import get_session
+    from dealflow.steps.company import CompanyNotFound, get_company
+    from dealflow.steps.screen import screen_company
+
+    init_db()
+    cfg = load_all()
+    try:
+        with get_session() as s:
+            company = get_company(s, company_id)
+            result = screen_company(s, cfg, company_id)
+            s.commit()
+    except (CompanyNotFound, ValueError) as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        raise typer.Exit(code=1)
+
+    # Display results
+    console.print()
+    if not result.passed_hard_filters:
+        console.print(f"[bold red]❌ REJECTED[/bold red] — hard filter failures:")
+        for f in result.hard_filter_failures:
+            console.print(f"   • {f}")
+        console.print()
+        return
+
+    # Score display
+    score_color = "green" if result.total_score >= 70 else "yellow" if result.total_score >= 50 else "red"
+    console.print(f"[bold {score_color}]Investment Fit: {result.total_score:.0f}/100[/{score_color}]")
+    console.print()
+
+    for dim in sorted(result.dimensions, key=lambda d: d.score, reverse=True):
+        dim_color = "green" if dim.score >= 70 else "yellow" if dim.score >= 50 else "red"
+        console.print(f"  [{dim_color}]{dim.key:<20}[/{dim_color}] {dim.score:>5.1f}/100  (weight: {dim.weight:.0%})")
+        console.print(f"    [dim]{dim.rationale}[/dim]")
+        console.print()
+
+    console.print(f"[dim]Cost: ${result.total_cost_usd:.4f}[/dim]")
+    console.print()
+    console.print(f"Run [bold]dealflow show {company_id}[/bold] to view raw KPIs.")
+
+
 if __name__ == "__main__":
     app()
