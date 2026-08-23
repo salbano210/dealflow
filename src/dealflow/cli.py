@@ -205,9 +205,15 @@ def ingest_cim_cmd(
             cid, cname = company.id, company.name
             src = enrich_from_cim(s, cid, path, allow_external_llm=not no_external_llm)
             src_id = src.id
+            # Commit now so company + CIM persist even if extraction fails
+            s.commit()
             written = 0
             if extract and not no_external_llm:
-                written = extract_from_source(s, cfg, src, cid)
+                try:
+                    written = extract_from_source(s, cfg, src, cid)
+                except Exception as e:
+                    console.print(f"[yellow]Extraction failed (CIM still stored):[/yellow] {e}")
+                    written = 0
     except (CimParseError, CompanyNotFound, ValueError) as e:
         console.print(f"[bold red]Error:[/bold red] {e}")
         raise typer.Exit(code=1)
