@@ -1,0 +1,204 @@
+{
+  "company": {
+    "id": 1,
+    "name": "Consolidated Utility Services",
+    "website": null,
+    "source": "cim_upload",
+    "status": "new",
+    "created_at": "2026-08-23 21:26:22.214490"
+  },
+  "raw_sources": [
+    {
+      "id": 1,
+      "kind": "cim",
+      "trust_tier": 3,
+      "url_or_path": "/Users/salalbano/Downloads/cus_cim.pdf",
+      "text_length": 114873,
+      "retrieved_at": "2026-08-23 22:19:24.634818"
+    }
+  ],
+  "extracted_attributes": [
+    {
+      "kpi_key": "business_model",
+      "value": "pure_services",
+      "state": "inferred",
+      "confidence": 0.8,
+      "evidence": "CuS's core business is broadly correlated with the overall long-term level of activity within the $1.2 trillion North American construction market. In this context, \"construction\" refers to the installation of fixed infrastructures, including utility lines, transportation routes, communications systems, as well as commercial, industrial and residential structures. As discussed above, locating services currently account for approximately 98 percent of the Company's revenue.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:19:29.310030"
+    },
+    {
+      "kpi_key": "target_customer",
+      "value": "utility, telecommunications, and cable industries",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "The Company provides this suite of services to customers from the utility (gas, electric, water, sewer, etc.), telecommunications and cable industries for whom such services are non-core activities.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386798"
+    },
+    {
+      "kpi_key": "estimated_revenue_usd",
+      "value": 57442000.0,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Summary Historical & Projected Operating Statistics: Revenue $57,442 (in thousands) for 2006.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386799"
+    },
+    {
+      "kpi_key": "growth_rate_yoy",
+      "value": 0.041,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Growth Rate Analysis: Revenue 4.1% for 2006.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386801"
+    },
+    {
+      "kpi_key": "gross_margin",
+      "value": 0.6,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Margin Analysis: Gross Profit 60.0% for 2006.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386802"
+    },
+    {
+      "kpi_key": "founder_led",
+      "value": true,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Rob A. Karam-President and Chief Executive Officer Rob is a co-founder of the Company. Brian R. Johnson-Vice President and Chief Operating Officer. Brian worked with Rob Karam, ACAS and River to co-found the Company in 2004.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386802"
+    },
+    {
+      "kpi_key": "employee_count",
+      "value": 734.0,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "As of September 30, 2006, the Company employed approximately 734 employees.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386803"
+    },
+    {
+      "kpi_key": "geography",
+      "value": "US",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Managed from its headquarters in Omaha, Nebraska, CuS's 800-person workforce operates in 15 states and the Canadian province of Alberta.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386804"
+    },
+    {
+      "kpi_key": "market_category",
+      "value": "utility damage prevention services",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Consolidated Utility Services, Inc. (\"CuS\" or the \"Company\") is an industry-leading and geographically diversified provider of a full spectrum of utility damage prevention process services and solutions, including underground utility locating, one-call management, and asset management services.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386805"
+    },
+    {
+      "kpi_key": "customer_concentration",
+      "value": "Top 10 customers accounted for 53.5% of YTD September 2006 revenue. Largest customer (Bellsouth) at approximately 9%.",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Only five clients individually accounted for more than 5% of YTD September 2006 revenues, with the largest being Bellsouth, at approximately 9 percent.",
+      "source_id": 1,
+      "model": "google/gemini-2.5-flash-lite",
+      "extracted_at": "2026-08-23 22:20:08.386806"
+    }
+  ],
+  "current_merged": {
+    "business_model": {
+      "value": "pure_services",
+      "state": "inferred",
+      "confidence": 0.8,
+      "evidence": "CuS's core business is broadly correlated with the overall long-term level of activity within the $1.2 trillion North American construction market. In this context, \"construction\" refers to the installation of fixed infrastructures, including utility lines, transportation routes, communications systems, as well as commercial, industrial and residential structures. As discussed above, locating services currently account for approximately 98 percent of the Company's revenue.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "target_customer": {
+      "value": "utility, telecommunications, and cable industries",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "The Company provides this suite of services to customers from the utility (gas, electric, water, sewer, etc.), telecommunications and cable industries for whom such services are non-core activities.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "estimated_revenue_usd": {
+      "value": 57442000.0,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Summary Historical & Projected Operating Statistics: Revenue $57,442 (in thousands) for 2006.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "growth_rate_yoy": {
+      "value": 0.041,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Growth Rate Analysis: Revenue 4.1% for 2006.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "gross_margin": {
+      "value": 0.6,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Margin Analysis: Gross Profit 60.0% for 2006.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "founder_led": {
+      "value": true,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Rob A. Karam-President and Chief Executive Officer Rob is a co-founder of the Company. Brian R. Johnson-Vice President and Chief Operating Officer. Brian worked with Rob Karam, ACAS and River to co-found the Company in 2004.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "employee_count": {
+      "value": 734.0,
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "As of September 30, 2006, the Company employed approximately 734 employees.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "geography": {
+      "value": "US",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Managed from its headquarters in Omaha, Nebraska, CuS's 800-person workforce operates in 15 states and the Canadian province of Alberta.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "market_category": {
+      "value": "utility damage prevention services",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Consolidated Utility Services, Inc. (\"CuS\" or the \"Company\") is an industry-leading and geographically diversified provider of a full spectrum of utility damage prevention process services and solutions, including underground utility locating, one-call management, and asset management services.",
+      "source_id": 1,
+      "conflict": false
+    },
+    "customer_concentration": {
+      "value": "Top 10 customers accounted for 53.5% of YTD September 2006 revenue. Largest customer (Bellsouth) at approximately 9%.",
+      "state": "known",
+      "confidence": 1.0,
+      "evidence": "Only five clients individually accounted for more than 5% of YTD September 2006 revenues, with the largest being Bellsouth, at approximately 9 percent.",
+      "source_id": 1,
+      "conflict": false
+    }
+  }
+}

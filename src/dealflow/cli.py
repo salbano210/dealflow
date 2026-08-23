@@ -305,5 +305,121 @@ def show_cmd(company_id: int = typer.Argument(..., help="Company id")) -> None:
     console.print(table)
 
 
+# ------------------------------------------------------------- airtable ----
+
+@app.command("sync-airtable")
+def sync_airtable_cmd(
+    push: bool = typer.Option(True, help="Push DB → Airtable"),
+    pull: bool = typer.Option(False, help="Pull Airtable → DB"),
+) -> None:
+    """Sync companies between SQLite and Airtable."""
+    from dealflow.sync.airtable import AirtableSyncError, pull_all, push_all
+
+    init_db()
+    cfg = load_all()
+    try:
+        if pull:
+            console.print("[bold]Pulling from Airtable...[/bold]")
+            results = pull_all(cfg)
+            console.print(f"  Updated: {results['updated']}, Skipped: {results['skipped']}")
+        if push:
+            console.print("[bold]Pushing to Airtable...[/bold]")
+            results = push_all(cfg)
+            console.print(f"  Created: {results['created']}, Updated: {results['updated']}, Errors: {results['errors']}")
+    except AirtableSyncError as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        raise typer.Exit(code=1)
+
+
+# ------------------------------------------------------------- export ----
+
+@app.command("export")
+def export_cmd(
+    company_id: int | None = typer.Option(None, "--company-id", help="Export specific company (or all if omitted)"),
+    output_dir: str = typer.Option("examples", help="Output directory"),
+) -> None:
+    """Export companies, sources, and extracted KPIs as JSON fixtures."""
+    import json
+    from pathlib import Path
+    from dealflow.db import init_db
+    from dealflow.db.session import get_session
+    from dealflow.db.models import Company, ExtractedAttribute, RawSource
+    from dealflow.steps.attributes import current_attributes
+    from dealflow.steps.company import CompanyNotFound, get_company
+
+    init_db()
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+
+    with get_session() as s:
+        if company_id:
+            companies = [get_company(s, company_id)]
+        else:
+            companies = s.query(Company).all()
+
+        for company in companies:
+            # Get raw sources
+            sources = s.query(RawSource).filter_by(company_id=company.id).all()
+
+            # Get extracted attributes (all rows, not just current)
+            attrs = s.query(ExtractedAttribute).filter_by(company_id=company.id).all()
+
+            # Get current merged view
+            current = current_attributes(s, company.id)
+
+            data = {
+                "company": {
+                    "id": company.id,
+                    "name": company.name,
+                    "website": company.website,
+                    "source": company.source,
+                    "status": company.status,
+                    "created_at": str(company.created_at),
+                },
+                "raw_sources": [
+                    {
+                        "id": src.id,
+                        "kind": src.kind,
+                        "trust_tier": src.trust_tier,
+                        "url_or_path": src.url_or_path,
+                        "text_length": len(src.text_blob),
+                        "retrieved_at": str(src.retrieved_at),
+                    }
+                    for src in sources
+                ],
+                "extracted_attributes": [
+                    {
+                        "kpi_key": a.kpi_key,
+                        "value": a.value_json.get("value"),
+                        "state": a.value_json.get("state"),
+                        "confidence": a.value_json.get("confidence"),
+                        "evidence": a.value_json.get("evidence"),
+                        "source_id": a.source_id,
+                        "model": a.model,
+                        "extracted_at": str(a.extracted_at),
+                    }
+                    for a in attrs
+                ],
+                "current_merged": {
+                    k: {
+                        "value": v.value,
+                        "state": v.state,
+                        "confidence": v.confidence,
+                        "evidence": v.evidence,
+                        "source_id": v.source_id,
+                        "conflict": v.conflict,
+                    }
+                    for k, v in current.items()
+                },
+            }
+
+            filename = out / f"company_{company.id}_{company.name.replace(' ', '_').lower()}.json"
+            with filename.open("w") as f:
+                json.dump(data, f, indent=2, default=str)
+            console.print(f"[green]Exported[/green] {filename}")
+
+    console.print(f"[bold green]OK[/bold green] -- exported to {out}/")
+
+
 if __name__ == "__main__":
     app()
