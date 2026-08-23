@@ -313,6 +313,7 @@ def sync_airtable_cmd(
     pull: bool = typer.Option(False, help="Pull Airtable → DB"),
 ) -> None:
     """Sync companies between SQLite and Airtable."""
+    from dealflow.db import init_db
     from dealflow.sync.airtable import AirtableSyncError, pull_all, push_all
 
     init_db()
